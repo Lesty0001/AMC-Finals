@@ -1,17 +1,19 @@
 {
   "expo": {
-    "name": "amc-finals",
-    "slug": "snack-b6be2fe6-9728-46f3-a73c-b687ca352633",
+    "name": "finalproject",
+    "slug": "snack-9fa4f9ba-4c44-4b3b-810e-d3bfd0f25aef",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },

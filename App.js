@@ -1,45 +1,49 @@
-import React, {useState} from 'react';
-import {View, SafeAreaView, ScrollView, TextInput, Text, TouchableOpacity, Image} from 'react-native';
+// App.js
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { View, ActivityIndicator, StyleSheet, StatusBar } from 'react-native';
+import { AuthProvider, useAuth } from './context/AuthContext'; // Import provider and hook
+import AuthNavigator from './navigation/AuthNavigator';
+import AppNavigator from './navigation/AppNavigator';
+import { COLORS } from './constants/colors';
 
-import {
-  createStaticNavigation,
-  useNavigation,
-} from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button } from '@react-navigation/elements';
+// Main component that decides which navigator to show
+const AppContent = () => {
+  const { isAuthenticated, isLoading } = useAuth(); // Get state from context
 
-const Jeep2Go = () => {
+  if (isLoading) {
+    // Show a loading screen while checking auth
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={COLORS.secondary} />
+      </View>
+    );
+  }
+
   return (
-    <ScrollView style={{margin: 30}}>
-    {/* Logo here */}
-    <View>
-      <Text style={{}}>Welcome</Text>
-    </View>
-    {/* start of the code when signing up */}
-      <View>
-        <Text>Sign In</Text>
-          <Text>with your Email or Phone</Text>
-            <TextInput 
-            placeholder="Email or Phone" style={{borderWidth:1}}/>
-        <Text>Forgot Email?</Text>
-      </View>
-      <View>
-        <Text>Create Account</Text>
-        <TouchableOpacity
-        onPress>Next</TouchableOpacity>
-      </View>
-    </ScrollView>
+    <>
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
+      {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
+    </>
   );
-};
+}
 
-const RootStack = createNativeStackNavigator({
-  initialRouteName: 'Home',
-  screens: {
-    Home: HomeScreen,
-    Details: DetailsScreen,
-  },
+export default function App() {
+  return (
+    // Wrap everything with the AuthProvider
+    <AuthProvider>
+      <NavigationContainer>
+        <AppContent />
+      </NavigationContainer>
+    </AuthProvider>
+  );
+}
+
+const styles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: COLORS.primary,
+    }
 });
-
-const Navigation = createStaticNavigation(RootStack);
-
-export default Jeep2Go;
